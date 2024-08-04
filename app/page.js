@@ -51,6 +51,7 @@ export default function Home() {
             <Todo/>
             <Todo/>
             <Todo/>
+            <Todo/>
         </tbody>
     </table>
 </div>

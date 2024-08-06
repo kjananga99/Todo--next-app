@@ -15,14 +15,18 @@ LoadDB();
 
 export async function GET(request) {
 
-    try {
-        const todos = await TodoModel.find({});
-        return NextResponse.json({ msg: "GET method hit", data: todos });
+    // try {
+    //     const todos = await TodoModel.find({});
+    //     return NextResponse.json({ msg: "GET method hit", data: todos });
 
-    } catch (error) {
-        console.error("GET request failed:", error);
-        return NextResponse.json({ msg: "GET request failed", error: error.message }, { status: 500 });
-    }
+    // } catch (error) {
+    //     console.error("GET request failed:", error);
+    //     return NextResponse.json({ msg: "GET request failed", error: error.message }, { status: 500 });
+    // }
+
+        const todos = await TodoModel.find({});
+        return NextResponse.json({todos:todos})
+
 }
 
 export async function POST(request) {

@@ -1,29 +1,47 @@
 
 import { ConnectDB } from "@/lib/config/db";
-import TodoModel from "@/lib/models/TodoModel";
 import { NextResponse } from "next/server";
+import TodoModel from "@/lib/models/TodoModel";
 
 const LoadDB = async () => {
-    await ConnectDB();
+    try {
+        await ConnectDB();
+    } catch (error) {
+        console.error("Database connection failed:", error);
+    }
 };
 
 LoadDB();
 
 export async function GET(request) {
-    await LoadDB();
-    return NextResponse.json({msg:"get method hit"});
+
+    try {
+        const todos = await TodoModel.find({});
+        return NextResponse.json({ msg: "GET method hit", data: todos });
+
+    } catch (error) {
+        console.error("GET request failed:", error);
+        return NextResponse.json({ msg: "GET request failed", error: error.message }, { status: 500 });
+    }
 }
 
 export async function POST(request) {
 
-    await LoadDB();
+    try {
 
-    const {title, description} = await request.json();
+        const { title, description } = await request.json();
 
-    await TodoModel.create({
-        title,
-        description
-    })
+        const newTodo = await TodoModel.create({
+            title,
+            description
+        });
 
-    return NextResponse.json({ msg: "Todo Created" });
+        return NextResponse.json({ msg: "Todo Created", data: newTodo });
+        
+    } catch (error) {
+        console.error("POST request failed:", error);
+        return NextResponse.json({ msg: "POST request failed", error: error.message }, { status: 500 });
+        
+    }
+
 }

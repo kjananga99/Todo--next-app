@@ -25,7 +25,7 @@ export default function Home() {
             params:{
                 mongoId:Id
             }
-        })
+        });
         toast.success(response.data.msg);
         fetchTodos();
     }

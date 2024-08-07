@@ -62,3 +62,20 @@ export async function PUT(request) {
     return NextResponse.json({ msg: "Todo Completed"});
 
 }
+
+
+// export async function DELETE(request) {
+//     console.log('delete');
+// }
+
+
+export async function DELETE(request) {
+    try {
+        const mongoId = request.nextUrl.searchParams.get('mongoId');
+        await TodoModel.findByIdAndDelete(mongoId);
+        return NextResponse.json({ msg: "Todo Deleted" });
+    } catch (error) {
+        console.error("DELETE request failed:", error);
+        return NextResponse.json({ msg: "DELETE request failed", error: error.message }, { status: 500 });
+    }
+}
